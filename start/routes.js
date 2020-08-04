@@ -16,9 +16,11 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.post('users', 'UserController.create')
-Route.post('sessions', 'SessionController.create')
+Route.post('users', 'Admin/UserController.create')
 
+Route.resource('sessions', 'Admin/SessionController')
+  .apiOnly()
+  
 Route.resource('administrators', 'AdministratorController')
   .apiOnly()
   .middleware('auth')
@@ -35,6 +37,22 @@ Route.resource('registries', 'RegistryController')
 .apiOnly()
 .middleware('auth')
 
-Route.resource('builds', 'BuildController')
+Route.resource('builds', 'Builds/BuildController')
+.apiOnly()
+.middleware('auth')
+
+Route.resource('units', 'Builds/UnitController')
+.apiOnly()
+.middleware('auth')
+
+Route.resource('owners', 'Builds/OwnerController')
+.apiOnly()
+.middleware('auth')
+
+// Route.resource('owners', 'OwnerController')
+// .apiOnly()
+// .middleware('auth')
+
+Route.resource('tile-data', 'Admin/TileController')
 .apiOnly()
 .middleware('auth')

@@ -5,7 +5,6 @@ const Schema = use('Schema')
 
 class BuildSchema extends Schema {
   up () {
-
       this.withSchema('build')
       .raw('CREATE SEQUENCE build.builds_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1')
       .create('builds', (table) => {
@@ -14,8 +13,11 @@ class BuildSchema extends Schema {
         .notNullable()
         .unique()
         .primary()
-        table.string('build_name').notNullable()
+        table.string('build_name')
+        .notNullable()
         table.string('dt_constr')
+        table.integer('class')
+        .notNullable()
         table.string('administrator_id')
           .unsigned()
           .references('id')

@@ -10,8 +10,8 @@ class User extends Model {
   /**
    * Set a schema name personalized
    */
-  static dbSchemaName () {
-    return "admin"
+  static get table () {
+    return 'admin.users'
   }
 
   static boot () {

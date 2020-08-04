@@ -4,6 +4,12 @@
 const Model = use('Model')
 
 class Token extends Model {
+   /**
+   * Set a schema name personalized
+   */
+  static get table () {
+    return 'admin.tokens'
+  }
 }
 
 module.exports = Token

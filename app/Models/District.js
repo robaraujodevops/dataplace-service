@@ -11,6 +11,12 @@ class District extends Model {
         return "build"
     }
 
+    static total () {
+        return this
+            .query()
+            .getCount()
+    }
+
     builds () {
         return this.hasMany('App/Models/Build')
     }

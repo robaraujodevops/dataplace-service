@@ -9,6 +9,12 @@ class Administrator extends Model {
         return 'build.administrators'
     }
 
+    static total () {
+        return this
+            .query()
+            .getCount()
+    }
+
     builds () {
         return this.hasMany('App/Models/Build')
     }

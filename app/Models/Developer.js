@@ -8,6 +8,12 @@ class Developer extends Model {
     static get table () {
         return 'build.developers'
     }
+    
+    static total () {
+        return this
+            .query()
+            .getCount()
+    }
 
     builds () {
         return this.hasMany('App/Models/Build')

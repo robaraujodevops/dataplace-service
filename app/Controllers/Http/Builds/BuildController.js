@@ -20,13 +20,26 @@ class BuildController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const { 
+      start = 1, 
+      length = 10, 
+      order = [{}],
+      columns = [{"data":"id"}],
+      search={"value":""} } = request.get()
+
+    const [ { column = 0,dir = "asc" } ] = order
+    const builds = {}
     
-    const page = request.header("x-page") || 1
+    builds.data = await Build
+        .builds(search.value)
+        .orderBy( columns[column].data, dir )
+        .offset(start)
+        .limit(length)
+        .fetch()
 
-    const builds = await Build
-        .builds()
-        .paginate(page, 10)
-
+    builds.recordsFiltered = await Build.totalHome(search.value)
+    builds.recordsTotal = await Build.totalHome(search.value)
+    
     return builds
 
   }
@@ -83,10 +96,15 @@ class BuildController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const info = await Build.build(params.id);
+    const add = await Build.build_address(params.id);
+    const contact = await Build.build_contacts(params.id);
 
-    const build = await Build.build(params.id)
-
-    return build
+    return {
+      info,
+      add,
+      contact
+    }
 
   }
 
