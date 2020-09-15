@@ -25,20 +25,21 @@ class BuildController {
       length = 10, 
       order = [{}],
       columns = [{"data":"id"}],
-      search={"value":""} } = request.get()
+      search={"value":""},
+      classe="" } = request.get()
 
     const [ { column = 0,dir = "asc" } ] = order
     const builds = {}
     
     builds.data = await Build
-        .builds(search.value)
+        .builds(classe, search.value)
         .orderBy( columns[column].data, dir )
         .offset(start)
         .limit(length)
         .fetch()
 
-    builds.recordsFiltered = await Build.totalHome(search.value)
-    builds.recordsTotal = await Build.totalHome(search.value)
+    builds.recordsFiltered = await Build.totalHome(classe)
+    builds.recordsTotal = await Build.totalHome(classe)
     
     return builds
 

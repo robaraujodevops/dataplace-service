@@ -19,22 +19,34 @@ class UnitController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    const { start,length,order,columns,search } = request.get()
+    const { start,length,order,columns,search, build_id } = request.get()
     const [ { column,dir } ] = order
 
     const units = {}
     
-    if(start){
+    if(start && !build_id){
       units.data = await Unit
-      .units(search.value)
+      .units()
       .orderBy( columns[column].data, dir )
       .offset(start)
       .limit(length)
       .fetch()
-    }
 
-    units.recordsFiltered = await Unit.totalHome(search.value)
-    units.recordsTotal = await Unit.totalHome(search.value)
+      units.recordsFiltered = await Unit.totalHome()
+      units.recordsTotal = await Unit.totalHome()      
+    }
+    
+    if(build_id){
+      units.data = await Unit
+      .unitsByBuild(build_id)
+      .orderBy( columns[column].data, dir )
+      .offset(start)
+      .limit(length)
+      .fetch()
+
+      units.recordsFiltered = await Unit.totalHomeByBuild(build_id)
+      units.recordsTotal = await Unit.totalHomeByBuild(build_id)
+    }
     
     return units
   }

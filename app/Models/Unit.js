@@ -8,17 +8,36 @@ class Unit extends Model {
         return 'build.units'
     }
 
-    static units (val) {
+    static units () {
         return this
             .query()
             .select(
                 'build.units.id',
                 'build.units.comp',
                 'build.units.uh',
+                'build_id',
                 'build.builds.build_name'
             )
             .innerJoin('build.builds','build.builds.id','build_id')
-            .where('build_name','~*',val)
+    }
+
+    static unitsByBuild(build_id) {
+        return this
+            .query()
+            .select(
+                'build.units.id',
+                'build.units.comp',
+                'build.units.uh',
+                'build.unit_stats.bedrooms',
+                'build.unit_stats.rent',
+                'build.unit_stats.rent_value',
+                'build.unit_stats.sale',
+                'build.unit_stats.sale_value',
+                'build.unit_stats.status'
+            )
+            .innerJoin('build.builds','build.builds.id','build_id')
+            .leftJoin('build.unit_stats','build.units.id','unit_id')
+            .where('build_id','~*',build_id)
     }
 
     static total () {
@@ -27,11 +46,18 @@ class Unit extends Model {
             .getCount()
     }
 
-    static totalHome (val) {
+    static totalHome () {
         return this
             .query()
             .innerJoin('build.builds','build.builds.id','build_id')
-            .where('build_name','~*',val)
+            .getCount()
+    }
+
+    static totalHomeByBuild (build_id) {
+        return this
+            .query()
+            .innerJoin('build.builds','build.builds.id','build_id')
+            .where('build_id','~*',build_id)
             .getCount()
     }
 }

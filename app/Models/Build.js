@@ -9,8 +9,8 @@ class Build extends Model {
         return 'build.builds'
     }
 
-    static builds (val) {
-        return this
+    static builds (classe, val) {
+        let qryDefault = this
             .query()
             .select(
                 'build.builds.id',
@@ -18,12 +18,29 @@ class Build extends Model {
                 'district_name',
                 'administrator_name',
                 'developer_name',
-                'dt_constr'
+                'dt_constr',
+                'class_name',
+                'class'
             )
             .innerJoin('build.administrators','build.administrators.id','administrator_id')
             .innerJoin('build.developers','build.developers.id','developer_id')
             .innerJoin('build.districts','build.districts.id','district_id')
-            .where('build_name','~*',val)
+            .innerJoin('build.build_classes','build.build_classes.id','class')
+            .where("class_name","~*", classe)
+        
+        if(val) {
+            qryDefault.where(function() {
+                this
+                    .where("build.builds.id","~*", val)
+                    .orWhere("build_name","~*", val)
+                    .orWhere("district_name","~*", val)
+                    .orWhere("administrator_name","~*", val)
+                    .orWhere("developer_name","~*", val)
+            })
+        }
+
+        return qryDefault
+
     }
 
     static build (id) {
