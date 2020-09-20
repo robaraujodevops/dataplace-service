@@ -1,17 +1,17 @@
 'use strict'
-const Owner = use('App/Models/Owner')
+const RecentActivity = use('App/Models/RecentActivity')
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 /**
- * Resourceful controller for interacting with owners
+ * Resourceful controller for interacting with recentactivies
  */
-class OwnerController {
+class RecentActivityController {
   /**
-   * Show a list of all owners.
-   * GET owners
+   * Show a list of all recentactivies.
+   * GET recentactivies
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -19,16 +19,17 @@ class OwnerController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    const owners = await Owner
-    .owners()
-    .fetch()
-
-    return owners
+    const {build_id} = request.get()
+    const activities = await RecentActivity
+                              .activitiesByUser(build_id)
+                              .fetch()
+    
+    return activities
   }
 
   /**
-   * Render a form to be used for creating a new owner.
-   * GET owners/create
+   * Render a form to be used for creating a new recentactivy.
+   * GET recentactivies/create
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -39,8 +40,8 @@ class OwnerController {
   }
 
   /**
-   * Create/save a new owner.
-   * POST owners
+   * Create/save a new recentactivy.
+   * POST recentactivies
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -50,8 +51,8 @@ class OwnerController {
   }
 
   /**
-   * Display a single owner.
-   * GET owners/:id
+   * Display a single recentactivy.
+   * GET recentactivies/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -62,8 +63,8 @@ class OwnerController {
   }
 
   /**
-   * Render a form to update an existing owner.
-   * GET owners/:id/edit
+   * Render a form to update an existing recentactivy.
+   * GET recentactivies/:id/edit
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -74,8 +75,8 @@ class OwnerController {
   }
 
   /**
-   * Update owner details.
-   * PUT or PATCH owners/:id
+   * Update recentactivy details.
+   * PUT or PATCH recentactivies/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -85,8 +86,8 @@ class OwnerController {
   }
 
   /**
-   * Delete a owner with id.
-   * DELETE owners/:id
+   * Delete a recentactivy with id.
+   * DELETE recentactivies/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -96,4 +97,4 @@ class OwnerController {
   }
 }
 
-module.exports = OwnerController
+module.exports = RecentActivityController

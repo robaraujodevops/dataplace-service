@@ -1,6 +1,8 @@
 'use strict'
-const moment = require('moment');
-const Build = use('App/Models/Build')
+const moment      = require('moment')
+const { all }     = require('../../../Models/Build')
+const Build       = use('App/Models/Build')
+const BuildImages = use('App/Models/BuildImage')
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -97,14 +99,19 @@ class BuildController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-    const info = await Build.build(params.id);
-    const add = await Build.build_address(params.id);
+    const info    = await Build.build(params.id);
+    const add     = await Build.build_address(params.id);
     const contact = await Build.build_contacts(params.id);
+    const images  = await BuildImages
+                      .query()
+                      .where('build_id', params.id)
+                      .fetch()
 
     return {
       info,
       add,
-      contact
+      contact,
+      images
     }
 
   }

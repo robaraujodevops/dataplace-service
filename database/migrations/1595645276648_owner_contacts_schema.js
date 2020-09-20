@@ -21,7 +21,7 @@ class OwnerContactsSchema extends Schema {
   }
 
   down () {
-    this.drop('owner_contacts')
+    this.withSchema('build').drop('owner_contacts')
   }
 }
 

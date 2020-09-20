@@ -33,10 +33,10 @@ class Unit extends Model {
                 'build.unit_stats.rent_value',
                 'build.unit_stats.sale',
                 'build.unit_stats.sale_value',
-                'build.unit_stats.status'
+                'build.unit_stats_status.status'
             )
-            .innerJoin('build.builds','build.builds.id','build_id')
             .leftJoin('build.unit_stats','build.units.id','unit_id')
+            .leftJoin('build.unit_stats_status','build.unit_stats.status','build.unit_stats_status.id')
             .where('build_id','~*',build_id)
     }
 

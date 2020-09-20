@@ -15,9 +15,10 @@ class SessionController {
   async index ({request, response, auth}) {
     try{
 
-      const { username, name, last_name, avatar_img } = await auth.getUser()
+      const { id, username, name, last_name, avatar_img } = await auth.getUser()
       
       return {
+        id,
         username,
         name,
         last_name,
