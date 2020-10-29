@@ -17,7 +17,7 @@ class BuildImagesSchema extends Schema {
       table.string('description')
       table.json('tags').defaultsTo('{"tags": []}')
       table.string('extension')
-      table.timestamps()
+      table.timestamps(true,true)
     })
   }
 

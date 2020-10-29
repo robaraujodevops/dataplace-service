@@ -6,7 +6,7 @@ const Schema = use('Schema')
 class OwnerTelefoneSchema extends Schema {
   up () {
     this.withSchema('build')
-    .create('owner_telefones', (table) => {
+    .createIfNotExists('owner_telefones', (table) => {
       table.increments('id')
       table.string('owner_id')
       .references('id')

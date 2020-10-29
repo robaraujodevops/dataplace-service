@@ -28,7 +28,8 @@
     "pg": "^7.18.2"
   },
   "devDependencies": {
-    "nodemon": "*"
+    "nodemon": "*",
+    "@adonisjs/cli": "*"
   },
   "autoload": {
     "App": "./app"
