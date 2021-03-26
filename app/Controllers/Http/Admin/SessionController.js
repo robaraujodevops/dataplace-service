@@ -5,11 +5,17 @@ class SessionController {
     const { email, password } = request.all()
 
     try{ 
-      const token = await auth.attempt(email, password)
-      
+      const token = await auth
+        .attempt(email, password)
+        
+        console.log(token)
       return token
 
     }catch(err){ console.log(err); return err }
+  }
+
+  async show ({ request, auth }) {
+
   }
 
   async index ({request, response, auth}) {
@@ -27,6 +33,22 @@ class SessionController {
 
     } catch (err) { return err }
   }
+
+  /**
+   * Delete a token with id.
+   * DELETE sessions/:id
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
+  async destroy ({ params, request, response }) {
+    
+    console.log('session_destroyed');
+
+    return {}
+  }
+
 }
 
 module.exports = SessionController

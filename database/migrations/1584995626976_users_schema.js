@@ -5,12 +5,11 @@ const Schema = use('Schema')
 
 class UserSchema extends Schema {
   up () {
-    console.log("schema",this.withSchema('admin'))
     this.hasTable('admin.users').then((exists) => {
         if(!exists){
           this.withSchema('admin').create('users', (table) => {
             table.uuid('id')
-            .defaultsTo(this.db.raw("gen_random_uuid()"))
+            .defaultsTo(this.db.raw("uuid_generate_v4()"))
             .notNullable()
             .unique()
             .primary()

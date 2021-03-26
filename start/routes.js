@@ -19,8 +19,10 @@ const Route = use('Route')
 /**
  * Admin Routes
  */
-Route.post('users',         'Admin/UserController.create')
-Route.resource('sessions',  'Admin/SessionController').apiOnly()
+Route.resource('users',     'Admin/UserController')
+Route.post('/login',        'Admin/UserController.login')
+Route.get('/logout',        'Admin/UserController.logout')
+Route.get('/check_auth',    'Admin/UserController.checkAuth')
 Route.resource('tile-data', 'Admin/TileController').apiOnly().middleware('auth')
 
 /**
